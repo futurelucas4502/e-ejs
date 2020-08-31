@@ -1,8 +1,11 @@
 {
-  "name": "e-ejs",
+  "name": "@futurelucas4502/e-ejs",
   "version": "1.0.0",
   "description": "A simple ejs wrapper for electron",
   "main": "index.js",
+  "dependencies": {
+    "ejs": "latest"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/futurelucas4502/e-ejs.git"
@@ -17,8 +20,5 @@
   "bugs": {
     "url": "https://github.com/futurelucas4502/e-ejs/issues"
   },
-  "homepage": "https://github.com/futurelucas4502/e-ejs#readme",
-  "dependencies": {
-    "ejs": "latest"
-  }
+  "homepage": "https://github.com/futurelucas4502/e-ejs#readme"
 }
