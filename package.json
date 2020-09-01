@@ -30,7 +30,8 @@
   "author": "futurelucas4502 (Lucas Wilson)",
   "license": "MIT",
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "postinstall.js"
   ],
   "bugs": {
     "url": "https://github.com/futurelucas4502/e-ejs/issues"
