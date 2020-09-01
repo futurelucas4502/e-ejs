@@ -21,6 +21,7 @@ Note: You **DON'T** need to install ejs aswell
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
+const ejs = require('@futurelucas4502/e-ejs')
 
 function createWindow () {
   // Create the browser window.
