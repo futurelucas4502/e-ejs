@@ -6,7 +6,7 @@ The goal of this project is to be the simplest and easiest to use ejs renderer f
 
 There are other great ejs electron renderers out there but a lot of them lack features which you would get from standard ejs and those that don't are big and clunky therefore i made this as a solution
 
-The package supports full ejs as it simply functions as a wrapper for the standard `ejs.renderFile()` function in the ejs library
+The package supports all the ejs functions from the official library with `ejs.render()` and `ejs.renderFile()` being the only difference's to use them the first thing you pass must be your browser window see [example usage]() below.
 
 You can install it using:
 
@@ -28,13 +28,10 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
   })
 
   // and load the index.ejs of the app.
-  ejs("index.ejs", mainWindow, {
+  ejs.renderFile(mainWindow, "index.ejs", {
     msg: "Hello"
   })
 
@@ -87,7 +84,7 @@ If you are using CSP you will need to allow ejs to access all your assets that a
 <script src="./renderer.js"></script>
 ```
 
-Then if im using a CSP it won't work by default you'll need to add `ejs:` to the CSP to make it work like so:
+Then if im using a CSP it won't work by default as you'll need to add `ejs:` to the CSP to make it work like so:
 
 ```js
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' ejs:">

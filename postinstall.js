@@ -1,0 +1,1 @@
+console.log("Thanks for using e-ejs by futurelucas4502!")
