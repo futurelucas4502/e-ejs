@@ -17,7 +17,7 @@ Note: You **DON'T** need to install ejs aswell
 # Example usage:
 
 ## main.js:
-```
+```js
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
@@ -66,7 +66,7 @@ app.on('window-all-closed', function () {
 ```
 
 ## index.ejs:
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -82,13 +82,13 @@ app.on('window-all-closed', function () {
 ## A note on CSP (content-security-policy):
 
 If you are using CSP you will need to allow ejs to access all your assets that are used in the page e.g. if i had the following line in my index.ejs:
-```
+```js
 <script src="./renderer.js"></script>
 ```
 
 Then if im using a CSP it won't work by default you'll need to add `ejs:` to the CSP to make it work like so:
 
-```
+```js
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' ejs:">
 <meta http-equiv="X-Content-Security-Policy" content="default-src 'self' ejs:">
 ```
