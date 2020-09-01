@@ -1,6 +1,6 @@
 {
   "name": "@futurelucas4502/e-ejs",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A simple ejs wrapper for electron",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,7 +10,7 @@
     "build": "tsc",
     "postinstall": "node postinstall.js",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
+    "prepublishOnly": "npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
