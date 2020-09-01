@@ -8,7 +8,7 @@ The goal of this project is to be the simplest and easiest to use ejs renderer f
 
 There are other great ejs electron renderers out there but a lot of them lack features which you would get from standard ejs and those that don't are big and clunky therefore i made this as a solution
 
-The package supports all the ejs functions from the official library with `ejs.render()` and `ejs.renderFile()` being the only difference's to use them the first thing you pass must be your browser window see [example usage]() below.
+The package supports all the ejs functions from the official library with `ejs.render()` and `ejs.renderFile()` being the only difference's to use them the first thing you pass must be your browser window see [example usage](#example-usage) below.
 
 You can install it using:
 
