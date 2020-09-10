@@ -13,8 +13,7 @@ let previousOptions: any;
 function parseFilePath(urlString: any) {
   const parsedUrl = new URL(urlString);
   let fileName = parsedUrl.pathname;
-  if (process.platform === 'win32')
-    fileName = fileName.substr(1);
+  if (process.platform === 'win32') fileName = fileName.substr(1);
   return fileName.replace(/(?:\s|%20)/g, ' ');
 }
 
@@ -27,20 +26,25 @@ app.whenReady().then(() => {
   });
 });
 
-
-export async function renderFile(browserWindow: Electron.BrowserWindow, ejspath: string, data: oEjs.Data, options: oEjs.Options) {
-  currentPath = ejspath
+export async function renderFile(
+  browserWindow: Electron.BrowserWindow,
+  ejspath: string,
+  data: oEjs.Data,
+  options: oEjs.Options,
+) {
+  currentPath = ejspath;
   if (typeof data === undefined || data === undefined || data == null) {
     data = {};
   }
-  currentViewData = data
+  currentViewData = data;
   if (typeof options === undefined || options === undefined || options == null || options === '') {
     options = {};
   }
-  currentOptions = options
+  currentOptions = options;
   if (firstFile) {
-    protocol.registerBufferProtocol("ejs", (request, callback) => {
-      if (request.headers.Accept === '*/*') { // fixes an error that occurs when you open devtools
+    protocol.registerBufferProtocol('ejs', (request, callback) => {
+      if (request.headers.Accept === '*/*') {
+        // fixes an error that occurs when you open devtools
         currentViewData = previousViewData;
         currentOptions = previousOptions;
       }
@@ -51,20 +55,20 @@ export async function renderFile(browserWindow: Electron.BrowserWindow, ejspath:
           data: Buffer.from(str),
         });
       });
-    })
-    firstFile = false
+    });
+    firstFile = false;
   }
   await browserWindow.loadURL(
     url.format({
       pathname: ejspath,
-      protocol: "ejs",
-      slashes: true
+      protocol: 'ejs',
+      slashes: true,
     }),
   );
-  previousViewData = currentViewData
-  previousOptions = currentOptions
-  currentViewData = undefined
-  currentOptions = undefined
+  previousViewData = currentViewData;
+  previousOptions = currentOptions;
+  currentViewData = undefined;
+  currentOptions = undefined;
 }
 
 export function render(window: Electron.BrowserWindow, rawEjs: string, data: oEjs.Data, options: oEjs.Options) {
