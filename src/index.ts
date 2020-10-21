@@ -20,7 +20,7 @@ app.whenReady().then(() => {
   protocol.registerFileProtocol('assets', (request, callback) => {
     const hostName: any = url.parse(request.url).hostname;
     const fileName = parseFilePath(request.url);
-    const filePath = path.join(hostName, fileName);
+    const filePath = path.join(process.cwd(), hostName, fileName);
     callback({ path: filePath });
   });
 });
