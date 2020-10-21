@@ -65,7 +65,9 @@ export function renderFile(
 }
 
 export function render(window: Electron.BrowserWindow, rawEjs: string, data: oEjs.Data, options: oEjs.Options) {
-  window.loadURL('data:text/html;charset=UTF-8,' + encodeURIComponent(oEjs.render(rawEjs, data || {}, options || {}).toString())); // this could be impoved to have the same buffer as the other one e.g. have an extra header as a true of false with the keyword file so that location.reload would work maybe idk im drunk XD
+  window.loadURL(
+    'data:text/html;charset=UTF-8,' + encodeURIComponent(oEjs.render(rawEjs, data || {}, options || {}).toString()),
+  ); // this could be impoved to have the same buffer as the other one e.g. have an extra header as a true of false with the keyword file so that location.reload would work maybe idk im drunk XD
 }
 
 exports.cache = oEjs.cache;
