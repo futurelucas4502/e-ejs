@@ -33,14 +33,14 @@ export function renderFile(
 ) {
   if (firstFile) {
     protocol.registerBufferProtocol('ejs', (request, callback) => {
-      const ejsPath = request.url.substring(7)
+      const ejsPath = request.url.substring(7);
       if (request.headers.Accept === '*/*' || request.headers.hasOwnProperty('Upgrade-Insecure-Requests')) {
         // fixes an error that occurs when you open devtools
         currentViewData = previousViewData[ejsPath];
         currentOptions = previousOptions[ejsPath];
       } else {
-        currentViewData = JSON.parse(request.headers.currentViewData)
-        currentOptions = JSON.parse(request.headers.currentOptions)
+        currentViewData = JSON.parse(request.headers.currentViewData);
+        currentOptions = JSON.parse(request.headers.currentOptions);
       }
       oEjs.renderFile(ejsPath, currentViewData, currentOptions, (err, str) => {
         if (err) throw err;
@@ -53,16 +53,15 @@ export function renderFile(
           previousOptions[ejsPath] = currentOptions;
         }
       });
-    })
+    });
     firstFile = false;
   }
 
   browserWindow.loadURL(`ejs:///${ejspath}`, {
     extraHeaders: `
     currentViewData: ${JSON.stringify(data) || '{}'}
-    currentOptions: ${JSON.stringify(options) || '{}'}`
-  }
-  )
+    currentOptions: ${JSON.stringify(options) || '{}'}`,
+  });
 }
 
 export function render(window: Electron.BrowserWindow, rawEjs: string, data: oEjs.Data, options: oEjs.Options) {
