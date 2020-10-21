@@ -7,9 +7,8 @@ import url = require('url');
 let firstFile: boolean = true;
 let currentViewData: any;
 let currentOptions: any;
-let currentPath: any;
-let previousViewData: any;
-let previousOptions: any;
+const previousViewData: any = {};
+const previousOptions: any = {};
 function parseFilePath(urlString: any) {
   const parsedUrl = new URL(urlString);
   let fileName = parsedUrl.pathname;
@@ -26,49 +25,44 @@ app.whenReady().then(() => {
   });
 });
 
-export async function renderFile(
+export function renderFile(
   browserWindow: Electron.BrowserWindow,
   ejspath: string,
   data: oEjs.Data,
   options: oEjs.Options,
 ) {
-  currentPath = ejspath;
-  if (typeof data === undefined || data === undefined || data == null) {
-    data = {};
-  }
-  currentViewData = data;
-  if (typeof options === undefined || options === undefined || options == null || options === '') {
-    options = {};
-  }
-  currentOptions = options;
   if (firstFile) {
     protocol.registerBufferProtocol('ejs', (request, callback) => {
-      if (request.headers.Accept === '*/*') {
+      const ejsPath = request.url.substring(7)
+      if (request.headers.Accept === '*/*' || request.headers.hasOwnProperty('Upgrade-Insecure-Requests')) {
         // fixes an error that occurs when you open devtools
-        currentViewData = previousViewData;
-        currentOptions = previousOptions;
+        currentViewData = previousViewData[ejsPath];
+        currentOptions = previousOptions[ejsPath];
+      } else {
+        currentViewData = JSON.parse(request.headers.currentViewData)
+        currentOptions = JSON.parse(request.headers.currentOptions)
       }
-      oEjs.renderFile(currentPath, currentViewData, currentOptions, (err, str) => {
+      oEjs.renderFile(ejsPath, currentViewData, currentOptions, (err, str) => {
         if (err) throw err;
         callback({
           mimeType: 'text/html',
           data: Buffer.from(str),
         });
+        if (request.headers.Accept !== '*/*' || !request.headers.hasOwnProperty('Upgrade-Insecure-Requests')) {
+          previousViewData[ejsPath] = currentViewData;
+          previousOptions[ejsPath] = currentOptions;
+        }
       });
-    });
+    })
     firstFile = false;
   }
-  await browserWindow.loadURL(
-    url.format({
-      pathname: ejspath,
-      protocol: 'ejs',
-      slashes: true,
-    }),
-  );
-  previousViewData = currentViewData;
-  previousOptions = currentOptions;
-  currentViewData = undefined;
-  currentOptions = undefined;
+
+  browserWindow.loadURL(`ejs:///${ejspath}`, {
+    extraHeaders: `
+    currentViewData: ${JSON.stringify(data) || '{}'}
+    currentOptions: ${JSON.stringify(options) || '{}'}`
+  }
+  )
 }
 
 export function render(window: Electron.BrowserWindow, rawEjs: string, data: oEjs.Data, options: oEjs.Options) {
