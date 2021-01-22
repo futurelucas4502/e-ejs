@@ -1,0 +1,16 @@
+{
+  "name": "e-ejs_example",
+  "version": "1.0.0",
+  "description": "An example of how to use @futurelucas4502/e-ejs",
+  "main": "main.js",
+  "scripts": {
+    "test": "nodemon --watch * --exec \"electron . --debug\""
+  },
+  "author": "futurelucas4502 (Lucas Wilson)",
+  "license": "MIT",
+  "dependencies": {
+    "@futurelucas4502/e-ejs": "file:..",
+    "electron": "^11.2.0",
+    "nodemon": "^2.0.7"
+  }
+}

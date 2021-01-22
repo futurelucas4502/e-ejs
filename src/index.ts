@@ -4,6 +4,7 @@ import { app, protocol } from 'electron';
 import path = require('path');
 import oEjs = require('ejs');
 import url = require('url');
+let viewPath: any;
 let firstFile: boolean = true;
 let currentViewData: any;
 let currentOptions: any;
@@ -23,6 +24,28 @@ app.whenReady().then(() => {
     const filePath = path.join(process.cwd(), hostName, fileName);
     callback({ path: filePath });
   });
+  protocol.registerBufferProtocol('ejs', (request, callback) => {
+    const ejsPath = request.url.substring(6).split('?')[0]; // this should really be changed so that the querys can be accessed in jquery
+    if (request.headers.Accept === '*/*' || request.headers.hasOwnProperty('Upgrade-Insecure-Requests')) {
+      // fixes an error that occurs when you open devtools
+      currentViewData = previousViewData[ejsPath];
+      currentOptions = previousOptions[ejsPath];
+    } else {
+      currentViewData = JSON.parse(request.headers.currentViewData);
+      currentOptions = JSON.parse(request.headers.currentOptions);
+    }
+    oEjs.renderFile(path.join(viewPath, ejsPath) + ".ejs", currentViewData, currentOptions, (err, str) => {
+      if (err) throw err;
+      callback({
+        mimeType: 'text/html',
+        data: Buffer.from(str),
+      });
+      if (request.headers.Accept !== '*/*' || !request.headers.hasOwnProperty('Upgrade-Insecure-Requests')) {
+        previousViewData[ejsPath] = currentViewData;
+        previousOptions[ejsPath] = currentOptions;
+      }
+    });
+  });
 });
 
 export function renderFile(
@@ -32,32 +55,11 @@ export function renderFile(
   options: oEjs.Options,
 ) {
   if (firstFile) {
-    protocol.registerBufferProtocol('ejs', (request, callback) => {
-      const ejsPath = request.url.substring(7);
-      if (request.headers.Accept === '*/*' || request.headers.hasOwnProperty('Upgrade-Insecure-Requests')) {
-        // fixes an error that occurs when you open devtools
-        currentViewData = previousViewData[ejsPath];
-        currentOptions = previousOptions[ejsPath];
-      } else {
-        currentViewData = JSON.parse(request.headers.currentViewData);
-        currentOptions = JSON.parse(request.headers.currentOptions);
-      }
-      oEjs.renderFile(ejsPath, currentViewData, currentOptions, (err, str) => {
-        if (err) throw err;
-        callback({
-          mimeType: 'text/html',
-          data: Buffer.from(str),
-        });
-        if (request.headers.Accept !== '*/*' || !request.headers.hasOwnProperty('Upgrade-Insecure-Requests')) {
-          previousViewData[ejsPath] = currentViewData;
-          previousOptions[ejsPath] = currentOptions;
-        }
-      });
-    });
+    viewPath = ejspath.split('/')[0];
+    ejspath = ejspath.split('/')[1];
     firstFile = false;
   }
-
-  browserWindow.loadURL(`ejs:///${ejspath}`, {
+  browserWindow.loadURL(`ejs://${ejspath}`, {
     extraHeaders: `
     currentViewData: ${JSON.stringify(data) || '{}'}
     currentOptions: ${JSON.stringify(options) || '{}'}`,
