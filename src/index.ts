@@ -34,7 +34,7 @@ app.whenReady().then(() => {
       currentViewData = JSON.parse(request.headers.currentViewData);
       currentOptions = JSON.parse(request.headers.currentOptions);
     }
-    oEjs.renderFile(path.join(viewPath, ejsPath) + ".ejs", currentViewData, currentOptions, (err, str) => {
+    oEjs.renderFile(path.join(viewPath, ejsPath) + '.ejs', currentViewData, currentOptions, (err, str) => {
       if (err) throw err;
       callback({
         mimeType: 'text/html',
