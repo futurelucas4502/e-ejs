@@ -2,6 +2,8 @@
 
 [![GitHub issues](https://img.shields.io/github/issues/futurelucas4502/e-ejs)](https://github.com/futurelucas4502/e-ejs/issues)[![GitHub forks](https://img.shields.io/github/forks/futurelucas4502/e-ejs)](https://github.com/futurelucas4502/e-ejs/network)[![GitHub stars](https://img.shields.io/github/stars/futurelucas4502/e-ejs)](https://github.com/futurelucas4502/e-ejs/stargazers)[![GitHub license](https://img.shields.io/github/license/futurelucas4502/e-ejs)](https://github.com/futurelucas4502/e-ejs/blob/master/LICENSE)[![Dev dependencies](https://david-dm.org/futurelucas4502/e-ejs/dev-status.svg)](https://david-dm.org/futurelucas4502/e-ejs?type=dev)[![Dependencies](https://david-dm.org/futurelucas4502/e-ejs.svg)](https://david-dm.org/futurelucas4502/e-ejs)![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/futurelucas4502/e-ejs)![npm (scoped)](https://img.shields.io/npm/v/@futurelucas4502/e-ejs)
 
+{Depreciated}
+
 The goal of this project is to be the simplest and easiest to use ejs renderer for electron
 
 There are other great ejs electron renderers out there but a lot of them lack features which you would get from standard ejs and those that don't are big and clunky therefore I made this as a solution
